@@ -33,9 +33,7 @@ const PracticeSearchAndFilters: React.FC<PracticeSearchAndFiltersProps> = ({
 
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const newValue = e.target.value;
-    console.log('Search change in PracticeSearchAndFilters:', newValue);
-    onSearchChange(newValue);
+    onSearchChange(e.target.value);
   }, [onSearchChange]);
 
   const handleClearSearch = useCallback((e: React.MouseEvent) => {

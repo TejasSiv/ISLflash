@@ -46,14 +46,6 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
   const activeSearchTerm = externalSearchTerm ?? internalSearchTerm;
   const activeFilter = externalFilter ?? internalFilter;
   
-  console.log('Search state:', { 
-    internalSearchTerm, 
-    externalSearchTerm, 
-    activeSearchTerm,
-    internalFilter,
-    externalFilter,
-    activeFilter 
-  });
   
   // Debounce search for performance
   const debouncedSearchTerm = useDebounce(activeSearchTerm, 300);
@@ -142,13 +134,6 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
   }, [level, toast]);
 
   useEffect(() => {
-    console.log('Filter effect running:', { 
-      debouncedSearchTerm, 
-      activeFilter, 
-      cardsLength: cards.length, 
-      selectedCard: !!selectedCard 
-    });
-    
     // Early return if no cards
     if (cards.length === 0) {
       setFilteredCards([]);
@@ -177,8 +162,6 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
                              descriptionLower.includes(searchLower) || 
                              exampleText.includes(searchLower);
         
-        console.log(`Card "${card.word}" matches search "${searchLower}":`, matchesSearch);
-        
         if (!matchesSearch) {
           return false;
         }
@@ -197,7 +180,6 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
       }
     });
     
-    console.log('Filtered cards:', filtered.length, 'out of', cards.length);
     setFilteredCards(filtered);
     setCurrentCardIndex(0);
     setIsFlipped(false);
@@ -367,8 +349,21 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
 
   if (!currentCard) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-slate-800 p-8">
-        <div className="max-w-2xl mx-auto text-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-slate-800">
+        {/* Search and Filters - show even when no cards found so user can search */}
+        {!selectedCard && (
+          <PracticeSearchAndFilters
+            searchTerm={internalSearchTerm}
+            onSearchChange={setInternalSearchTerm}
+            filter={internalFilter}
+            onFilterChange={setInternalFilter}
+            resultCount={filteredCards.length}
+            totalCount={cards.length}
+            level={level}
+          />
+        )}
+        
+        <div className="max-w-2xl mx-auto text-center p-8">
           <Button variant="ghost" onClick={onBack} className="mb-6">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Home
@@ -395,10 +390,7 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
       {!selectedCard && (
         <PracticeSearchAndFilters
           searchTerm={internalSearchTerm}
-          onSearchChange={(value) => {
-            console.log('Search change received in FlashcardPractice:', value);
-            setInternalSearchTerm(value);
-          }}
+          onSearchChange={setInternalSearchTerm}
           filter={internalFilter}
           onFilterChange={setInternalFilter}
           resultCount={filteredCards.length}

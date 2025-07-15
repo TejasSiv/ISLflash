@@ -116,4 +116,26 @@ CREATE TABLE flashcards (
 
 ```
 src/
-
+components/          # React components
+ui/             # shadcn/ui components
+FlashcardPractice.tsx
+LiveSearch.tsx
+...
+hooks/              # Custom React hooks
+pages/              # Main page components
+utils/              # Utility functions
+integrations/       # Supabase integration
+styles/            # CSS and design tokens
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
