@@ -1,0 +1,158 @@
+
+:root {
+  /* Light mode colors */
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 200 98% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 14.3% 45.9%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 220 14.3% 95.9%;
+  --muted-foreground: 220 8.9% 46.1%;
+  --accent: 142 76% 36%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 200 98% 45%;
+  --radius: 0.5rem;
+
+  /* Sidebar colors */
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 222.2 84% 4.9%;
+  --sidebar-primary: 200 98% 45%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 14.3% 95.9%;
+  --sidebar-accent-foreground: 222.2 84% 4.9%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 200 98% 45%;
+
+  /* Design system surface colors */
+  --surface-primary: 0 0% 100%;
+  --surface-secondary: 220 14.3% 97.1%;
+  --surface-tertiary: 220 14.3% 95.9%;
+  --surface-elevated: 0 0% 100%;
+
+  /* Design system text colors */
+  --text-primary: 222.2 84% 4.9%;
+  --text-secondary: 215.4 16.3% 30.2%;
+  --text-tertiary: 220 8.9% 46.1%;
+  --text-disabled: 220 14.3% 64.1%;
+  --text-inverse: 0 0% 100%;
+
+  /* Design system border colors */
+  --border-default: 220 13% 91%;
+  --border-subtle: 220 14.3% 95.9%;
+  --border-strong: 220 13% 82.4%;
+  --border-interactive: 200 98% 45%;
+}
+
+.dark {
+  /* Dark mode colors */
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 200 98% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 142 76% 36%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 200 98% 45%;
+
+  /* Dark sidebar colors */
+  --sidebar-background: 222.2 84% 4.9%;
+  --sidebar-foreground: 210 40% 98%;
+  --sidebar-primary: 200 98% 45%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 217.2 32.6% 17.5%;
+  --sidebar-accent-foreground: 210 40% 98%;
+  --sidebar-border: 217.2 32.6% 17.5%;
+  --sidebar-ring: 200 98% 45%;
+
+  /* Dark design system surface colors */
+  --surface-primary: 222.2 84% 4.9%;
+  --surface-secondary: 217.2 32.6% 17.5%;
+  --surface-tertiary: 215 27.9% 16.9%;
+  --surface-elevated: 222.2 84% 4.9%;
+
+  /* Dark design system text colors */
+  --text-primary: 210 40% 98%;
+  --text-secondary: 215 20.2% 65.1%;
+  --text-tertiary: 215 13.8% 52.1%;
+  --text-disabled: 217.9 10.6% 35.9%;
+  --text-inverse: 222.2 84% 4.9%;
+
+  /* Dark design system border colors */
+  --border-default: 217.2 32.6% 17.5%;
+  --border-subtle: 215 27.9% 16.9%;
+  --border-strong: 215 20.2% 32.1%;
+  --border-interactive: 200 98% 45%;
+}
+
+/* Utility classes for design tokens */
+.surface-primary {
+  background-color: hsl(var(--surface-primary));
+}
+
+.surface-secondary {
+  background-color: hsl(var(--surface-secondary));
+}
+
+.surface-tertiary {
+  background-color: hsl(var(--surface-tertiary));
+}
+
+.surface-elevated {
+  background-color: hsl(var(--surface-elevated));
+}
+
+.text-primary {
+  color: hsl(var(--text-primary));
+}
+
+.text-secondary {
+  color: hsl(var(--text-secondary));
+}
+
+.text-tertiary {
+  color: hsl(var(--text-tertiary));
+}
+
+.text-disabled {
+  color: hsl(var(--text-disabled));
+}
+
+.text-inverse {
+  color: hsl(var(--text-inverse));
+}
+
+.border-default {
+  border-color: hsl(var(--border-default));
+}
+
+.border-subtle {
+  border-color: hsl(var(--border-subtle));
+}
+
+.border-strong {
+  border-color: hsl(var(--border-strong));
+}
+
+.border-interactive {
+  border-color: hsl(var(--border-interactive));
+}
