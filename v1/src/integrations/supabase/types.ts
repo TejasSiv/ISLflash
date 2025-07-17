@@ -21,6 +21,7 @@ export type Database = {
           level: string
           needs_review: boolean
           word: string
+          video_url: string | null
         }
         Insert: {
           created_at?: string | null
@@ -33,6 +34,7 @@ export type Database = {
           level: string
           needs_review?: boolean
           word: string
+          video_url?: string | null
         }
         Update: {
           created_at?: string | null
@@ -45,6 +47,7 @@ export type Database = {
           level?: string
           needs_review?: boolean
           word?: string
+          video_url?: string | null
         }
         Relationships: []
       }

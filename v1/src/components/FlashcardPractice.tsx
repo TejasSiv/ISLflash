@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { shuffleArray } from '@/utils/shuffle';
 import { useDebounce } from '@/hooks/useDebounce';
 import PracticeSearchAndFilters from '@/components/PracticeSearchAndFilters';
+import { convertToEmbeddableUrl, isValidVideoUrl } from '@/utils/videoUtils';
 
 interface FlashcardPracticeProps {
   level: string;
@@ -28,6 +29,7 @@ interface FlashCard {
   is_favorite: boolean;
   needs_review: boolean;
   last_seen: Date | null;
+  video_url: string | null;
 }
 
 const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: externalFilter, selectedCard, onBack }: FlashcardPracticeProps) => {
@@ -80,7 +82,7 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
         
         let query = supabase
           .from('flashcards')
-          .select('*');
+          .select('*, video_url');
         
         // Filter by level if specified
         if (level) {
@@ -111,7 +113,8 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
           level: card.level,
           is_favorite: card.is_favorite,
           needs_review: card.needs_review,
-          last_seen: card.last_seen ? new Date(card.last_seen) : null
+          last_seen: card.last_seen ? new Date(card.last_seen) : null,
+          video_url: card.video_url
         }));
         
         // Shuffle cards on initial load for better learning experience
@@ -148,7 +151,7 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
       return;
     }
 
-    let filtered = cards.filter(card => {
+    const filtered = cards.filter(card => {
       // Search filter - more efficient search
       if (debouncedSearchTerm && debouncedSearchTerm.trim() !== '') {
         const searchLower = debouncedSearchTerm.toLowerCase().trim();
@@ -444,7 +447,7 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
         {/* Flashcard */}
         <div className="perspective-1000 mb-8">
           <Card 
-            className={`relative w-full h-96 cursor-pointer transition-transform duration-500 transform-style-preserve-3d ${
+            className={`relative w-full h-[32rem] cursor-pointer transition-transform duration-500 transform-style-preserve-3d ${
               isFlipped ? 'rotate-y-180' : ''
             }`}
             onClick={handleCardFlip}
@@ -481,37 +484,60 @@ const FlashcardPractice = ({ level, searchTerm: externalSearchTerm, filter: exte
                   <img 
                     src={currentCard.image_url} 
                     alt={`Sign for ${currentCard.word}`}
-                    className="w-48 h-32 object-cover rounded-lg mb-6 mx-auto"
+                    className="w-64 h-40 object-cover rounded-lg mb-8 mx-auto"
                   />
-                  <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">
+                  <h2 className="text-4xl font-bold text-gray-800 dark:text-gray-100">
                     {currentCard.word}
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400 mt-2">Click to see description</p>
+                  <p className="text-gray-500 dark:text-gray-400 mt-3">Click to see description</p>
                 </div>
               </div>
             </div>
 
             {/* Back of card */}
             <div className={`absolute inset-0 backface-hidden rotate-y-180 ${isFlipped ? '' : 'rotate-y-180'}`}>
-              <div className="h-full p-8 flex flex-col justify-center bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+              <div className="h-full p-6 flex flex-col bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+                <div className="flex flex-col h-full">
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 text-center">
                     How to sign "{currentCard.word}"
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-6">
-                    {currentCard.description}
-                  </p>
                   
-                  {currentCard.examples.length > 0 && (
-                    <div className="text-left">
-                      <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-2">Example usage:</h4>
-                      <ul className="text-gray-600 dark:text-gray-300 space-y-1">
-                        {currentCard.examples.map((example, index) => (
-                          <li key={index} className="italic">• {example}</li>
-                        ))}
-                      </ul>
+                  {/* Video Display */}
+                  {currentCard.video_url && isValidVideoUrl(currentCard.video_url) && (
+                    <div className="mb-4 relative w-full flex-shrink-0">
+                      <div className="relative w-full bg-black rounded-lg overflow-hidden" style={{ paddingBottom: '40%' /* Larger ratio for bigger card */ }}>
+                        <iframe
+                          src={convertToEmbeddableUrl(currentCard.video_url) || ''}
+                          className="absolute top-0 left-0 w-full h-full border-0"
+                          allow="autoplay"
+                          allowFullScreen
+                          title={`Video demonstration for ${currentCard.word}`}
+                          style={{ 
+                            transform: 'scale(1.1)', 
+                            transformOrigin: 'center center',
+                            objectFit: 'cover'
+                          }}
+                        />
+                      </div>
                     </div>
                   )}
+                  
+                  <div className="flex-1 flex flex-col justify-center min-h-0">
+                    <p className="text-gray-600 dark:text-gray-300 text-base leading-relaxed mb-4 text-center">
+                      {currentCard.description}
+                    </p>
+                    
+                    {currentCard.examples.length > 0 && (
+                      <div className="text-left">
+                        <h4 className="font-semibold text-gray-700 dark:text-gray-200 mb-2 text-sm">Example usage:</h4>
+                        <ul className="text-gray-600 dark:text-gray-300 space-y-1 text-sm">
+                          {currentCard.examples.slice(0, 3).map((example, index) => (
+                            <li key={index} className="italic">• {example}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
